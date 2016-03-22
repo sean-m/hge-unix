@@ -1,4 +1,4 @@
-project(hge_unix)
+project(hge_unix CXX)
 cmake_minimum_required(VERSION 2.8)
 
 option(BUILD_TUTORIALS "Build the tutorial samples" OFF)
@@ -35,8 +35,7 @@ if(UNIX OR APPLE)
 	endif(USE_CXIMAGE)
 
 	include_directories(
-		${SDL2_INCLUDE_DIR}
-		${OPENAL_INCLUDE_DIR}
+	    ${SDL_INCLUDE_DIR}		
 		${VORBIS_INCLUDE_DIR}
 		${IL_INCLUDE_DIR}
 		${ZLIB_INCLUDE_DIR}
@@ -44,13 +43,14 @@ if(UNIX OR APPLE)
 		${PNG_INCLUDE_DIR}
 		${CMAKE_SOURCE_DIR}/include
 		${CMAKE_SOURCE_DIR}/core
+        ${OPENAL_INCLUDE_DIR}
 	)
 
 	add_definitions(-D_LINUX)
 
 	# The libraries to link against for HGE, and also for applications using it
 	set(HGE_LIBRARIES
-		${SDL2_LIBRARY}
+		${SDL_LIBRARY}
 		${OPENAL_LIBRARY}
 		${VORBISFILE_LIBRARY}
 		${IL_LIBRARIES}

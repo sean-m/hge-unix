@@ -37,16 +37,26 @@ extern "C" {
 // switches to providing function pointers
 //#define GL_GLEXT_FUNCTION_POINTERS 1
 
+#ifdef __APPLE__
+#include "OpenGL/gltypes.h"
+/* typedef unsigned int GLenum; */
+/* typedef int GLint; */
+/* typedef unsigned int GLbitfield; */
+/* typedef int GLsizei; */
+/* typedef unsigned int GLuint; */
+#else
 typedef unsigned long GLenum;
-typedef unsigned char GLboolean;
+typedef long GLint;
 typedef unsigned long GLbitfield;
+typedef long GLsizei;
+typedef unsigned long GLuint;
+#endif
+
+typedef unsigned char GLboolean;
 typedef signed char GLbyte;
 typedef short GLshort;
-typedef long GLint;
-typedef long GLsizei;
 typedef unsigned char GLubyte;
 typedef unsigned short GLushort;
-typedef unsigned long GLuint;
 typedef float GLfloat;
 typedef float GLclampf;
 typedef double GLdouble;
@@ -65,6 +75,7 @@ typedef long GLsizeiptr;
 #include <OpenGL/glext.h>
 #endif
 
+    
 /* For compatibility with OpenGL v1.0 */
 #define GL_LOGIC_OP GL_INDEX_LOGIC_OP
 #define GL_TEXTURE_COMPONENTS GL_TEXTURE_INTERNAL_FORMAT

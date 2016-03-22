@@ -847,7 +847,7 @@ bool HGE_Impl::_ProcessSDLEvent(const SDL_Event &e)
 			keymods = e.key.keysym.mod;
 
 			#if PLATFORM_MACOSX  // handle Apple-Q hotkey, etc.
-			if (keymods & KMOD_META) {
+			if (keymods & KMOD_GUI) {
 				if (e.key.keysym.sym == SDLK_q) {
 					if(pHGE->procExitFunc && !pHGE->procExitFunc()) break;
 					return false;

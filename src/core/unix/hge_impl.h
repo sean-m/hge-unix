@@ -9,12 +9,9 @@
 #ifndef HGE_IMPL_UNIX_H
 #define HGE_IMPL_UNIX_H
 
-#include "unix_compat.h"
-
-#include "../../include/hge.h"
+#include "../../../include/hge.h"
 #include <stdio.h>
 #include <dirent.h>
-#include "SDL.h"
 
 #define GL_GLEXT_LEGACY 1
 #include "gl.h"

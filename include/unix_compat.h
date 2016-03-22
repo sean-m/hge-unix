@@ -30,7 +30,7 @@
 #include <sys/time.h>
 #include <time.h>
 
-#include "SDL.h"
+#include "SDL2/SDL.h"
 
 #define _MAX_PATH PATH_MAX
 #define MAX_PATH PATH_MAX
