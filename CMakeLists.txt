@@ -1,10 +1,14 @@
 project(hge_unix CXX)
 cmake_minimum_required(VERSION 2.8)
+set(HGE_VERSION 1.8.1)
 
 option(BUILD_TUTORIALS "Build the tutorial samples" OFF)
 option(BUILD_TOOLS "Build the library tools" OFF)
 option(USE_INTERNAL_ZLIB "Use the internal ZLib" OFF)
 option(BUILD_SINGLE_LIB "Build a single library for HGE and Helpers" ON)
+option(BUILD_C_API "Build a C api version of the library" OFF)
+option(BUILD_C_HELPERS_API "Build a C api version of the helpers library" OFF)
+option(BUILD_C_TUTORIALS "Build the tutorials for the C api" OFF)
 
 if(UNIX OR APPLE)
 	# Needed for FindVorbis
@@ -61,14 +65,21 @@ if(UNIX OR APPLE)
 	)
 
 	set(USE_SHARED SHARED)
+
+	# Set the pkg-config requirements
+	set(HGE_REQUIRES sdl2)
 elseif(WIN32)
 	# Windows
 	add_definitions(-D_WINDOWS -D_WIN32)
+	set(HGE_CFLAGS "-D_WINDOWS -D_WIN32 -mwindows")
 	set(USE_INTERNAL_ZLIB ON)
+
+	find_package(PNG REQUIRED)
 
 	set(HGE_LIBRARIES
 		d3d8
 		winmm
+		${PNG_LIBRARY}
 	)
 
 	if(MSVC AND NOT (CMAKE_BUILD_TYPE MATCHES Debug))
@@ -98,8 +109,17 @@ else()
 	set(HGE_HELPER_LIBRARY hge_helpers ${HGE_LIBRARY})
 endif()
 
+configure_file(hge-unix.pc.in hge-unix.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hge-unix.pc DESTINATION lib/pkgconfig)
+
 # Where HGE is located, this also builds the helper library
 add_subdirectory(src/core)
+
+if(BUILD_C_API)
+	configure_file(hge-unix-c.pc.in hge-unix-c.pc @ONLY)
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hge-unix-c.pc DESTINATION lib/pkgconfig)
+	add_subdirectory(c_api)
+endif(BUILD_C_API)
 
 # Did tutorials get enabled to be built?
 if(BUILD_TUTORIALS)
